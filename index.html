@@ -137,6 +137,7 @@ const today = new Date();
 let cur = { y: today.getFullYear(), m: today.getMonth() + 1 };
 let selYear = null;
 const MONTHS = [3,4,5,6,7];
+const cache = {};
 
 function formatToday() {
   const w = ['日','月','火','水','木','金','土'][today.getDay()];
@@ -146,12 +147,25 @@ function formatToday() {
 function render(year, month) {
   document.getElementById('month-label').textContent = year + '年\n' + month + '月';
   document.getElementById('today-disp').textContent = formatToday();
+
+  const cacheKey = year + '-' + month;
+  if (cache[cacheKey]) {
+    handleData(cache[cacheKey]);
+    return;
+  }
+
   document.getElementById('tbody').innerHTML = '<tr><td colspan="6" class="loading">読み込み中...</td></tr>';
 
-  const url = GAS_URL + '?year=' + year + '&month=' + month + '&callback=handleData';
-  const script = document.createElement('script');
-  script.src = url;
-  document.body.appendChild(script);
+  fetch(GAS_URL + '?year=' + year + '&month=' + month)
+    .then(function(res) { return res.json(); })
+    .then(function(rows) {
+      cache[cacheKey] = rows;
+      handleData(rows);
+    })
+    .catch(function(err) {
+      document.getElementById('tbody').innerHTML =
+        '<tr><td colspan="6" class="loading">エラーが発生しました</td></tr>';
+    });
 }
 
 function handleData(rows) {
