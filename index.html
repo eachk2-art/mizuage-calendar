@@ -24,6 +24,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sa
 .month-label { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.4; text-align: right; flex-shrink: 0; white-space: pre; }
 .btn-cal { width: 36px; height: 36px; border-radius: 8px; border: 1.5px solid rgba(255,255,255,0.5); background: rgba(255,255,255,0.15); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; -webkit-tap-highlight-color: transparent; }
 .btn-cal:active { background: rgba(255,255,255,0.3); }
+.btn-refresh { width: 36px; height: 36px; border-radius: 8px; border: 1.5px solid rgba(255,255,255,0.5); background: rgba(255,255,255,0.15); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 18px; -webkit-tap-highlight-color: transparent; }
+.btn-refresh:active { background: rgba(255,255,255,0.3); }
 
 .table-header { background: #0d3d8a; flex-shrink: 0; }
 .table-header table { width: 100%; border-collapse: collapse; table-layout: fixed; }
@@ -92,6 +94,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sa
           <line x1="2" y1="7" x2="14" y2="7" stroke="currentColor" stroke-width="1.4"/>
         </svg>
       </button>
+      <button class="btn-refresh" onclick="refreshData()" title="最新データに更新">🔄</button>
     </div>
   </div>
 
@@ -142,6 +145,11 @@ const cache = {};
 function formatToday() {
   const w = ['日','月','火','水','木','金','土'][today.getDay()];
   return '本日：' + today.getFullYear() + '/' + (today.getMonth()+1) + '/' + today.getDate() + '（' + w + '）';
+}
+
+function refreshData() {
+  Object.keys(cache).forEach(function(key) { delete cache[key]; });
+  render(cur.y, cur.m);
 }
 
 function render(year, month) {
