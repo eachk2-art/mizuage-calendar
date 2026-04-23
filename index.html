@@ -190,16 +190,6 @@ function formatToday() {
   return '本日：' + today.getFullYear() + '/' + (today.getMonth()+1) + '/' + today.getDate() + '（' + w + '）';
 }
 
-function loadNotices() {
-  fetch(GAS_URL + '?type=notices')
-    .then(function(res) { return res.json(); })
-    .then(function(notices) {
-      noticesData = notices;
-      checkNewNotices(notices);
-    })
-    .catch(function() {});
-}
-
 function checkNewNotices(notices) {
   if (!notices || notices.length === 0) return;
   const lastRead = localStorage.getItem(NOTICE_KEY) || '';
@@ -210,41 +200,13 @@ function checkNewNotices(notices) {
   }
 }
 
-function openNoticeModal() {
-  const list = document.getElementById('notice-list');
-  if (!noticesData || noticesData.length === 0) {
-    list.innerHTML = '<div class="notice-empty">お知らせはありません</div>';
-  } else {
-    list.innerHTML = noticesData.map(function(n) {
-      return '<div class="notice-item">' +
-        '<div class="notice-date">' + n.date + '</div>' +
-        '<div class="notice-content">' + n.content.replace(/\n/g, '<br>') + '</div>' +
-        '</div>';
-    }).join('');
-    localStorage.setItem(NOTICE_KEY, noticesData[0].date);
-    document.getElementById('notice-badge').classList.add('hidden');
-    document.getElementById('btn-notice').classList.remove('has-notice');
-  }
-  document.getElementById('notice-modal-bg').classList.add('open');
-}
-
-function closeNoticeModal() { document.getElementById('notice-modal-bg').classList.remove('open'); }
-function closeNoticeModalOutside(e) { if (e.target === document.getElementById('notice-modal-bg')) closeNoticeModal(); }
-
-function refreshData() {
-  Object.keys(cache).forEach(function(key) { delete cache[key]; });
-  noticesData = [];
-  loadNotices();
-  render(cur.y, cur.m);
-}
-
 function render(year, month) {
   document.getElementById('month-label').textContent = year + '年\n' + month + '月';
   document.getElementById('today-disp').textContent = formatToday();
 
   const cacheKey = year + '-' + month;
   if (cache[cacheKey]) {
-    handleData(cache[cacheKey]);
+    handleData(cache[cacheKey].rows);
     return;
   }
 
@@ -252,9 +214,14 @@ function render(year, month) {
 
   fetch(GAS_URL + '?year=' + year + '&month=' + month)
     .then(function(res) { return res.json(); })
-    .then(function(rows) {
-      cache[cacheKey] = rows;
-      handleData(rows);
+    .then(function(data) {
+      cache[cacheKey] = data;
+      // お知らせも一緒に受け取る
+      if (data.notices) {
+        noticesData = data.notices;
+        checkNewNotices(data.notices);
+      }
+      handleData(data.rows);
     })
     .catch(function() {
       document.getElementById('tbody').innerHTML =
@@ -291,6 +258,33 @@ function handleData(rows) {
     tb.appendChild(tr);
   });
   document.getElementById('table-body-scroll').scrollTop = 0;
+}
+
+function openNoticeModal() {
+  const list = document.getElementById('notice-list');
+  if (!noticesData || noticesData.length === 0) {
+    list.innerHTML = '<div class="notice-empty">お知らせはありません</div>';
+  } else {
+    list.innerHTML = noticesData.map(function(n) {
+      return '<div class="notice-item">' +
+        '<div class="notice-date">' + n.date + '</div>' +
+        '<div class="notice-content">' + n.content.replace(/\n/g, '<br>') + '</div>' +
+        '</div>';
+    }).join('');
+    localStorage.setItem(NOTICE_KEY, noticesData[0].date);
+    document.getElementById('notice-badge').classList.add('hidden');
+    document.getElementById('btn-notice').classList.remove('has-notice');
+  }
+  document.getElementById('notice-modal-bg').classList.add('open');
+}
+
+function closeNoticeModal() { document.getElementById('notice-modal-bg').classList.remove('open'); }
+function closeNoticeModalOutside(e) { if (e.target === document.getElementById('notice-modal-bg')) closeNoticeModal(); }
+
+function refreshData() {
+  Object.keys(cache).forEach(function(key) { delete cache[key]; });
+  noticesData = [];
+  render(cur.y, cur.m);
 }
 
 function changeMonth(d) {
@@ -345,7 +339,6 @@ function closeCalModal() { document.getElementById('cal-modal-bg').classList.rem
 function closeCalModalOutside(e) { if (e.target === document.getElementById('cal-modal-bg')) closeCalModal(); }
 
 document.getElementById('today-disp').textContent = formatToday();
-loadNotices();
 render(cur.y, cur.m);
 </script>
 </body>
