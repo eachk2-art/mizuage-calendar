@@ -16,7 +16,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sa
 .header-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
 .header-today { font-size: 14px; opacity: 0.9; margin-bottom: 10px; }
 
-.btn-bell { position: absolute; top: 6px; right: 6px; width: 44px; height: 44px; border-radius: 8px; border: 1.5px solid rgba(255,255,255,0.5); background: rgba(255,255,255,0.15); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; -webkit-tap-highlight-color: transparent; }
+.btn-bell { position: absolute; top: 2px; right: 2px; width: 52px; height: 52px; border-radius: 8px; border: 1.5px solid rgba(255,255,255,0.5); background: rgba(255,255,255,0.15); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 .btn-bell:active { background: rgba(255,255,255,0.3); }
 
 .badge { position: absolute; top: -5px; right: -5px; background: #e53935; color: #fff; border-radius: 50%; width: 16px; height: 16px; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; border: 1.5px solid #0d3d8a; }
@@ -30,13 +30,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sa
 .btn-bell.has-notice { animation: bell-pulse 1.5s ease-in-out infinite; }
 
 .nav-row { display: flex; align-items: center; gap: 8px; padding-right: 4px; }
-.btn-nav { font-size: 13px; font-weight: 600; padding: 10px 8px; border-radius: 8px; border: 1.5px solid rgba(255,255,255,0.5); background: rgba(255,255,255,0.15); color: #fff; cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent; flex-shrink: 0; }
+.btn-nav { font-size: 13px; font-weight: 600; padding: 10px 8px; border-radius: 8px; border: 1.5px solid rgba(255,255,255,0.5); background: rgba(255,255,255,0.15); color: #fff; cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent; touch-action: manipulation; flex-shrink: 0; }
 .btn-nav:active { background: rgba(255,255,255,0.3); }
 .btn-nav.current { background: #f0a500; border-color: #f0a500; }
 .spacer { flex: 1; min-width: 2px; }
 .month-label { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.4; text-align: right; flex-shrink: 0; white-space: pre; }
 
-.btn-icon { width: 34px; height: 34px; border-radius: 8px; border: 1.5px solid rgba(255,255,255,0.5); background: rgba(255,255,255,0.15); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; -webkit-tap-highlight-color: transparent; position: relative; }
+.btn-icon { width: 34px; height: 34px; border-radius: 8px; border: 1.5px solid rgba(255,255,255,0.5); background: rgba(255,255,255,0.15); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; -webkit-tap-highlight-color: transparent; touch-action: manipulation; position: relative; }
 .btn-icon:active { background: rgba(255,255,255,0.3); }
 
 .table-header { background: #0d3d8a; flex-shrink: 0; }
@@ -86,10 +86,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sa
 
 .year-grid { display: flex; gap: 10px; margin-bottom: 18px; }
 .month-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
-.sel-btn { font-size: 16px; font-weight: 600; padding: 11px 0; border-radius: 10px; border: 1.5px solid #d0d0cc; background: #fff; color: #333; cursor: pointer; text-align: center; flex: 1; -webkit-tap-highlight-color: transparent; }
+.sel-btn { font-size: 16px; font-weight: 600; padding: 11px 0; border-radius: 10px; border: 1.5px solid #d0d0cc; background: #fff; color: #333; cursor: pointer; text-align: center; flex: 1; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 .sel-btn:active { background: #f0f0ee; }
 .sel-btn.selected { background: #1a5fc4; color: #fff; border-color: #1a5fc4; }
-.modal-close { margin-top: 14px; width: 100%; font-size: 15px; font-weight: 600; padding: 13px; border-radius: 10px; border: 1.5px solid #d0d0cc; background: #f5f5f3; color: #555; cursor: pointer; }
+.modal-close { margin-top: 14px; width: 100%; font-size: 15px; font-weight: 600; padding: 13px; border-radius: 10px; border: 1.5px solid #d0d0cc; background: #f5f5f3; color: #555; cursor: pointer; touch-action: manipulation; }
 </style>
 </head>
 <body>
@@ -97,7 +97,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sa
 
   <div class="header">
     <button class="btn-bell" id="btn-notice" onclick="openNoticeModal()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
         <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
       </svg>
