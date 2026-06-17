@@ -68,6 +68,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sa
 .mark-aitai  { display: inline-block; background: #e6f7ee; color: #1a8f60; font-size: 15px; font-weight: 700; padding: 3px 6px; border-radius: 6px; border: 1.5px solid #1a8f60; white-space: nowrap; }
 .mark-jojo   { display: inline-block; background: #e6f0ff; color: #1a5fc4; font-size: 15px; font-weight: 700; padding: 3px 6px; border-radius: 6px; border: 1.5px solid #1a5fc4; white-space: nowrap; }
 .mark-cancel { display: inline-block; background: #ffeaea; color: #c43030; font-size: 15px; font-weight: 700; padding: 3px 6px; border-radius: 6px; border: 1.5px solid #c43030; white-space: nowrap; }
+.mark-yobi   { display: inline-block; background: #fff3e0; color: #e07800; font-size: 15px; font-weight: 700; padding: 3px 6px; border-radius: 6px; border: 1.5px solid #e07800; white-space: nowrap; }
 
 .note-text { font-size: 14px; color: #e07800; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
 .loading { text-align: center; padding: 50px 20px; color: #888; font-size: 16px; }
@@ -246,6 +247,7 @@ function handleData(rows) {
     if (r.mark === '相対') markHtml = '<span class="mark-aitai">相対</span>';
     else if (r.mark === '上場') markHtml = '<span class="mark-jojo">上場</span>';
     else if (r.mark === 'キャンセル') markHtml = '<span class="mark-cancel">✕</span>';
+    else if (r.mark === '予備日') markHtml = '<span class="mark-yobi">予備日</span>';
     const qtyHtml = (r.qty !== '' && r.qty !== null) ? r.qty + ' t' : '';
     const noteHtml = r.note ? '<span class="note-text">'+r.note+'</span>' : '';
     const tr = document.createElement('tr');
